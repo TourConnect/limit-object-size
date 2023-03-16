@@ -1,0 +1,25 @@
+{
+  "name": "limit-object-size",
+  "version": "1.0.0",
+  "description": "Limits a javascript object serialized JSON size in KBytes by trimming the attributes in order of size",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TourConnect/limit-object-size.git"
+  },
+  "author": "Salvador Aceves Osuna",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TourConnect/limit-object-size/issues"
+  },
+  "homepage": "https://github.com/TourConnect/limit-object-size#readme",
+  "dependencies": {
+    "ramda": "^0.28.0"
+  },
+  "devDependencies": {
+    "jest": "^29.5.0"
+  }
+}
