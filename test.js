@@ -66,8 +66,8 @@ describe("limitObjectSize", () => {
   test('invalid values should return 0', () => {
     const maxKB = 10/1024;
     let result = limitObjectSize(null, maxKB);
-    expect(result).toBe(0);
+    expect(result).toEqual({});
     result = limitObjectSize(undefined, maxKB);
-    expect(result).toBe(0);
+    expect(result).toEqual({});
   })
 });
