@@ -1,6 +1,6 @@
 {
   "name": "limit-object-size",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Limits a javascript object serialized JSON size in KBytes by trimming the attributes in order of size",
   "main": "index.js",
   "scripts": {

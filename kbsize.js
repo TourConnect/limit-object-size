@@ -2,6 +2,7 @@ const { Blob } = require('buffer');
 const legacyBlob = require('cross-blob');
 
 const sizeInKB = str => {
+  if (typeof str !== 'string') return 0;
   let blob;
   try {
     blob = new Blob([str]);
