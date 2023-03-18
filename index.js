@@ -2,7 +2,7 @@ const R = require('ramda');
 const sizeInKB = require('./kbsize.js');
 
 const limitObjectSize = (obj, maxKBytes) => {
-  if (obj === null || typeof obj !== 'object') return {};
+  if (obj === null || typeof obj !== 'object' || R.isEmpty(obj)) return {};
 
   // Get the current size of the object
   const initialSize = sizeInKB(JSON.stringify(obj));
@@ -40,7 +40,7 @@ const limitObjectSize = (obj, maxKBytes) => {
 
 const getSize  = (parent, obj) => {
   let returnValue = [];
-  if (obj === null || typeof obj !== 'object') return 0;
+  if (obj === null || typeof obj !== 'object' || R.isEmpty(obj)) return returnValue;
   Object.entries(obj).forEach(([attribute, value]) => {
     const descriptor = [parent, attribute].filter(e => e !== '').join('.');
     if (typeof value === 'object') {
