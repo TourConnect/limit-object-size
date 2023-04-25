@@ -72,4 +72,21 @@ describe("limitObjectSize", () => {
     result = limitObjectSize({ something: null}, maxKB);
     expect(result).toEqual({ something: null});
   })
+  test('array content', () => {
+    const myObj = {
+      thisArray: [{
+        ok: '123123123123123123',
+      },{
+        ok: 'nada',
+      }],
+    };
+    const expectedObj = {
+      thisArray: [{},{
+        ok: 'nada',
+      }],
+    };
+    const maxKB = 20/1024;
+    const result = limitObjectSize({ myObj }, maxKB);
+    expect(result).toEqual({ myObj: expectedObj });
+  });
 });
