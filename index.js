@@ -20,7 +20,7 @@ const limitObjectSize = (obj, maxKBytes) => {
   // Remove the largest attributes until the object is within the byte limit
   let trimmedObj = R.clone(obj);
   for (const [key, size] of propsBySize) {
-    const pathName = key.split('.');
+    const pathName = key.split('.').map(JSON.parse);
     const valueEval = JSON.stringify(R.path(pathName, trimmedObj));
     const keyEval = JSON.stringify(key);
     if (sizeInKB(valueEval) > sizeInKB(keyEval)) {
@@ -41,7 +41,12 @@ const limitObjectSize = (obj, maxKBytes) => {
 const getSize  = (parent, obj) => {
   let returnValue = [];
   if (obj === null || typeof obj !== 'object' || R.isEmpty(obj)) return returnValue;
-  Object.entries(obj).forEach(([attribute, value]) => {
+  Object.entries(obj).forEach(([attributeParam, value]) => {
+    if (Array.isArray(obj)) {
+      attribute = attributeParam;
+    } else {
+      attribute = `"${attributeParam}"`;
+    }
     const descriptor = [parent, attribute].filter(e => e !== '').join('.');
     if (typeof value === 'object') {
       returnValue = returnValue.concat(getSize(descriptor, value));

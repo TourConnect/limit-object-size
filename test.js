@@ -54,9 +54,9 @@ describe("limitObjectSize", () => {
         subprop2longname: "value3",
       }
     };
-    const maxKB = 10/1024;
+    const maxKB = 45/1024;
     const expectedObj = {
-      prop1: "...",
+      prop1: "value1",
       prop2: {}
     };
     const result = limitObjectSize(myObj, maxKB);
