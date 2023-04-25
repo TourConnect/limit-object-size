@@ -1,6 +1,8 @@
 const R = require('ramda');
 const sizeInKB = require('./kbsize.js');
 
+const REPLACE_WITH = '...';
+
 const limitObjectSize = (obj, maxKBytes) => {
   if (obj === null || typeof obj !== 'object' || R.isEmpty(obj)) return {};
 
@@ -19,18 +21,27 @@ const limitObjectSize = (obj, maxKBytes) => {
 
   // Remove the largest attributes until the object is within the byte limit
   let trimmedObj = R.clone(obj);
+  let newSize = initialSize;
   for (const [key, size] of propsBySize) {
     const pathName = key.split('.').map(JSON.parse);
     const valueEval = JSON.stringify(R.path(pathName, trimmedObj));
     const keyEval = JSON.stringify(key);
+    let removedSize = 0;
     if (sizeInKB(valueEval) > sizeInKB(keyEval)) {
       // remove the value
-      trimmedObj = R.modifyPath(pathName, e => '...' , trimmedObj); 
+      removedSize = sizeInKB(JSON.stringify({
+        [R.last(pathName)]: R.path(pathName, trimmedObj)
+      }));
+      removedSize = removedSize - sizeInKB(JSON.stringify({
+        [R.last(pathName)]: REPLACE_WITH,
+      }));
+      trimmedObj = R.modifyPath(pathName, e => REPLACE_WITH, trimmedObj);
     } else {
       // remove the name
-      trimmedObj = R.dissocPath(pathName, trimmedObj); 
+      trimmedObj = R.dissocPath(pathName, trimmedObj);
+      removedSize = size;
     }
-    const newSize = sizeInKB(JSON.stringify(trimmedObj));
+    newSize = newSize - removedSize;
     if (newSize <= maxKBytes) {
       break;
     }
